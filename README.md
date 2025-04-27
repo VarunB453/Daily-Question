@@ -52,6 +52,6 @@ Let’s grow together, one problem at a time!
 
 Feel free to reach out or connect with me here:  
 🔗 [LinkedIn – varunb7-dev](https://www.linkedin.com/in/varunb7-dev/)  
-🐙 [GitHub – VarunB-asm](https://github.com/VarunB453)
+🐙 [GitHub – VarunB453](https://github.com/VarunB453)
 
 ---
