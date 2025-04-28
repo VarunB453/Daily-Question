@@ -3,7 +3,7 @@
 Welcome to my **Daily LeetCode Challenge**! 🚀  
 I'm solving one LeetCode problem every day and sharing the solutions here in this repository.
 
-📍 **GitHub Profile:** [VarunB-asm](https://github.com/VarunB-asm)  
+📍 **GitHub Profile:** [VarunB453](https://github.com/VarunB453)  
 🧩 **Main Goal:** Build consistency, improve problem-solving skills, and help others along the way!
 
 ---
@@ -19,7 +19,7 @@ I'm solving one LeetCode problem every day and sharing the solutions here in thi
 
 ## 🛠️ Languages & Tools
 
-- **Java** ☕ (Java 6)  
+- **Java** ☕
 - **LeetCode** 💡  
 - **GitHub** 📁
 
