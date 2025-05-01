@@ -1,42 +1,56 @@
 class Solution {
+    private int[] tasks;
+    private int[] workers;
+    private int strength;
+    private int pills;
+    private int taskCount;
+    private int workerCount;
+
     public int maxTaskAssign(int[] tasks, int[] workers, int pills, int strength) {
         Arrays.sort(tasks);
         Arrays.sort(workers);
-        
-        int left = 0, right = Math.min(tasks.length, workers.length);
-        
+        this.tasks = tasks;
+        this.workers = workers;
+        this.strength = strength;
+        this.pills = pills;
+        taskCount = tasks.length;
+        workerCount = workers.length;
+
+        int left = 0, right = Math.min(workerCount, taskCount);
         while (left < right) {
             int mid = (left + right + 1) / 2;
-            if (canAssign(mid, tasks, workers, pills, strength)) {
+            if (check(mid)) {
                 left = mid;
             } else {
                 right = mid - 1;
             }
         }
+
         return left;
     }
 
-    private boolean canAssign(int k, int[] tasks, int[] workers, int pills, int strength) {
-        Deque<Integer> deque = new ArrayDeque<>();
-        for (int i = workers.length - k; i < workers.length; i++) {
-            deque.addLast(workers[i]);
-        }
+    private boolean check(int x) {
+        int taskIdx = 0;
+        Deque<Integer> taskQueue = new ArrayDeque<>();
+        int remainingPills = pills;
 
-        int availablePills = pills;
-        for (int i = k - 1; i >= 0; i--) {
-            int task = tasks[i];
-            if (!deque.isEmpty() && deque.getLast() >= task) {
-                deque.removeLast(); // assign strongest worker
+        for (int workerIdx = workerCount - x; workerIdx < workerCount; ++workerIdx) {
+            while (taskIdx < x && tasks[taskIdx] <= workers[workerIdx] + strength) {
+                taskQueue.offer(tasks[taskIdx++]);
+            }
+            if (taskQueue.isEmpty()) {
+                return false;
+            }
+            if (taskQueue.peekFirst() <= workers[workerIdx]) {
+                taskQueue.pollFirst();
+            } else if (remainingPills == 0) {
+                return false;
             } else {
-                if (availablePills == 0) return false;
-                while (!deque.isEmpty() && deque.getFirst() + strength < task) {
-                    deque.removeFirst(); // discard weakest unqualified
-                }
-                if (deque.isEmpty()) return false;
-                deque.removeFirst(); // use pill on weakest viable
-                availablePills--;
+                --remainingPills;
+                taskQueue.pollLast();
             }
         }
+
         return true;
     }
 }
