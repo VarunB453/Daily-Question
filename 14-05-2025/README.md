@@ -1,57 +1,94 @@
-# 3337 - Length of String After Transformations
+# 3337 - Length After Transformations
 
 Problem Summary
 
-You are given:
+You are given a lowercase string s, an integer t, and a list of 26 integers nums where nums[i] determines how the character 'a' + i can be transformed. Each character can shift forward (circularly) by 1 to nums[i] positions in one transformation. Perform this transformation t times and return the total length of the resulting string after all transformations.
 
-A lowercase string s
+Class: Solution
 
-An integer t, the number of transformation steps
+Method: public int lengthAfterTransformations(String s, int t, List<Integer> nums)
 
-A list nums of 26 integers, where nums[i] indicates how many forward cyclic shifts character 'a' + i can transform into in a single step
+Parameters:
 
+s: A string of lowercase letters.
 
-Each transformation allows a character 'a' + i to transform into the next nums[i] letters (modulo 26). This transformation is applied t times.
+t: Number of transformation rounds to apply.
 
-Goal: After t rounds of transformation, return the total number of resulting characters (modulo 10⁹ + 7).
-
-
----
-
-Solution Overview
-
-This solution uses matrix exponentiation to model repeated transformations efficiently.
-
-Steps:
-
-1. Character Frequency: Count occurrences of each character in the original string s.
+nums: A list of 26 integers, where each index i represents how many positions the character 'a' + i can transform forward.
 
 
-2. Transition Matrix: Build a 26×26 matrix where matrix[i][j] = 1 if 'a' + i can transform into 'a' + j in one step.
+Returns:
 
+The total count of characters (with multiplicity) after applying the transformations t times, modulo 1e9 + 7.
 
-3. Matrix Exponentiation: Raise this matrix to the power t to simulate t rounds of transformations.
-
-
-4. Vector-Matrix Multiplication: Multiply the character frequency vector by the matrix to compute the final distribution of characters.
-
-
-5. Result Aggregation: Sum all the values in the final vector to get the total number of characters after all transformations.
 
 
 ---
 
+Core Logic
 
-Time & Space Complexity
+The transformations can be modeled using matrix exponentiation. Each character transformation can be thought of as a state transition in a directed graph, represented as an adjacency matrix.
 
-Time Complexity:
+Step-by-Step Breakdown:
 
-Matrix exponentiation: O(26^3 * log t)
+1. Count Initial Characters:
 
-Vector-matrix multiplication: O(26^2)
+cnt[i] holds the count of character 'a' + i in the input string.
 
 
-Space Complexity: O(26^2) for matrices
+
+2. Build Transformation Matrix:
+
+For each character 'a' + i, it can transform to (i + j) % 26 for j = 1 to nums[i].
+
+This results in a 26x26 matrix matrix where matrix[i][j] = 1 if a transition from i to j is allowed.
+
+
+
+3. Matrix Exponentiation:
+
+Raise the transformation matrix to the power t using fast exponentiation to simulate t transformation rounds.
+
+
+
+4. Apply Final Transformation:
+
+Multiply the character count vector by the matrix to get the final distribution of characters after t rounds.
+
+
+
+5. Sum the Result:
+
+Return the sum of all characters in the final vector modulo 1e9 + 7.
+
+
+
+
+
+---
+
+Helper Methods
+
+matmul(int[][] a, int[][] b)
+
+Performs matrix multiplication with modulus handling.
+
+matpow(int[][] mat, int power, int m)
+
+Computes matrix exponentiation efficiently using binary exponentiation.
+
+vectorMatrixMultiply(int[] vector, int[][] matrix)
+
+Multiplies a vector by a matrix to simulate one full transformation step.
+
+
+---
+
+Time and Space Complexity
+
+Time: O(26^3 * log t) due to matrix exponentiation.
+
+Space: O(26^2) for matrix storage.
 
 
 
@@ -59,12 +96,12 @@ Space Complexity: O(26^2) for matrices
 
 Example
 
-Input:
-s = "abc"
-t = 2
-nums = [1, 1, ..., 1] // each character can move forward 1 step per transformation
+String s = "abc";
+int t = 2;
+List<Integer> nums = Arrays.asList(1, 2, ..., 1); // length 26
 
-Output:
-Total characters after transformations modulo 1e9+7
+Solution sol = new Solution();
+int result = sol.lengthAfterTransformations(s, t, nums);
+System.out.println(result);
 
 
